@@ -3,6 +3,9 @@ yaws2812bcc
 
 yet another ws2812b code collection
 
+for the trinket ardu-thing based on attiny85.
+most likely needs adoptions for other MCUs.
+
 license
 ~~~~~~~
 
