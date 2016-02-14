@@ -269,8 +269,6 @@ void loop(void)
     for (l=0; l<N_LED; l++)
     {
         neo[l] = rgb565_add(rgb565_add(string1[l], string2[l]), string3[l]);
-        neo[l] = rgb565_add(rgb565_add(string1[l], string2[l]), string3[l]);
-        neo[l] = rgb565_add(rgb565_add(string1[l], string2[l]), string3[l]);
     }
 }
 
