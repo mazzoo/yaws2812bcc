@@ -29,7 +29,7 @@ uint16_t neo[N_LED];
 uint16_t line[N_LED];
 
 /* speeds for strings */
-#define PERIOD      60
+#define PERIOD      17
 #define BLINKSPEED 999
 
 void setup(void)
@@ -45,8 +45,28 @@ void setup(void)
 
     memset(line, 0, (N_LED - 4)*2);
 
-    line[50] = RGB565(0xaa, 0x33, 0x00);
-    line[51] = RGB565(0xff, 0x88, 0x00);
+    line[30] = RGB565(0xaa, 0x33, 0x00);
+    line[31] = RGB565(0xff, 0x88, 0x00);
+    line[32] = RGB565(0xff, 0x66, 0x00);
+    line[33] = RGB565(0xff, 0x66, 0x00);
+    line[34] = RGB565(0xff, 0x66, 0x00);
+    line[35] = RGB565(0xff, 0x66, 0x00);
+    line[36] = RGB565(0xff, 0x66, 0x00);
+    line[37] = RGB565(0xff, 0x66, 0x00);
+    line[38] = RGB565(0xff, 0x66, 0x00);
+    line[39] = RGB565(0xff, 0x66, 0x00);
+    line[40] = RGB565(0xff, 0x66, 0x00);
+    line[41] = RGB565(0xff, 0x66, 0x00);
+    line[42] = RGB565(0xff, 0x66, 0x00);
+    line[43] = RGB565(0xff, 0x66, 0x00);
+    line[44] = RGB565(0xff, 0x66, 0x00);
+    line[45] = RGB565(0xff, 0x66, 0x00);
+    line[46] = RGB565(0xff, 0x66, 0x00);
+    line[47] = RGB565(0xff, 0x66, 0x00);
+    line[48] = RGB565(0xff, 0x66, 0x00);
+    line[49] = RGB565(0xff, 0x66, 0x00);
+    line[50] = RGB565(0xff, 0x66, 0x00);
+    line[51] = RGB565(0xff, 0x66, 0x00);
     line[52] = RGB565(0xff, 0x66, 0x00);
     line[53] = RGB565(0xff, 0x66, 0x00);
     line[54] = RGB565(0xff, 0x66, 0x00);
@@ -178,6 +198,12 @@ uint16_t rgb565_add(uint16_t x, uint16_t y)
     return RGB565(r8, g8, b8);
 }
 
+uint8_t min(uint8_t a, uint8_t b)
+{
+    if (a>b) return b;
+    return a;
+}
+
 void loop(void)
 {
     static uint32_t frame = 0;
@@ -194,21 +220,49 @@ void loop(void)
 
     if ((f % 90) == 0)
     {
-        for (l=1; l<N_LED-1; l++)
+        for (l=1; l<N_LED-1; l+=2)
         {
-            line[l] = RGB565(
-                    ((RGB565_R( neo[l-1] ) / 3) +
-                     (RGB565_R( neo[l-0] ) / 3) +
-                     (RGB565_R( neo[l+1] ) / 3)
-                    ),
-                    ((RGB565_G( neo[l-1] ) / 3) +
-                     (RGB565_G( neo[l-0] ) / 3) +
-                     (RGB565_G( neo[l+1] ) / 3)
-                    ),
-                    ((RGB565_B( neo[l-1] ) / 3) +
-                     (RGB565_B( neo[l-0] ) / 3) +
-                     (RGB565_B( neo[l+1] ) / 3)
-                    ));
+            uint8_t r = 0;
+            if ( RGB565_R( neo[l-1] ) > 3)
+            {
+                r += RGB565_R( neo[l-1] ) / 3;
+            }
+            if ( RGB565_R( neo[l+0] ) > 3)
+            {
+                r += RGB565_R( neo[l+0] ) / 3;
+            }
+            if ( RGB565_R( neo[l+1] ) > 3)
+            {
+                r += RGB565_R( neo[l+1] ) / 3;
+            }
+            uint8_t g = 0;
+            if ( RGB565_G( neo[l-1] ) > 3)
+            {
+                g += RGB565_G( neo[l-1] ) / 3;
+            }
+            if ( RGB565_G( neo[l+0] ) > 3)
+            {
+                g += RGB565_G( neo[l+0] ) / 3;
+            }
+            if ( RGB565_G( neo[l+1] ) > 3)
+            {
+                g += RGB565_G( neo[l+1] ) / 3;
+            }
+            uint8_t b = 0;
+            if ( RGB565_B( neo[l-1] ) > 3)
+            {
+                b += RGB565_B( neo[l-1] ) / 3;
+            }
+            if ( RGB565_B( neo[l+0] ) > 3)
+            {
+                b += RGB565_B( neo[l+0] ) / 3;
+            }
+            if ( RGB565_B( neo[l+1] ) > 3)
+            {
+                b += RGB565_B( neo[l+1] ) / 3;
+            }
+
+            line[l] = RGB565(r, g, b);
         }
     }
 
@@ -225,7 +279,6 @@ void loop(void)
     {
         neo[l] = line[l];
     }
-
 
     for (l=0; l<N_LED; l++)
     {
